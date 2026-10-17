@@ -43,6 +43,7 @@ RUN make js wasm
 ARG GOOS
 ARG GOARCH
 RUN make cmd
+RUN make -C rc build
 
 ## WANIX EXTRAS
 
@@ -87,5 +88,6 @@ FROM scratch AS dist
 WORKDIR /dist
 COPY --from=build /build/dist/* .
 COPY --from=build /build/.local/bin/wanix ./wanix
+COPY --from=build /build/rc/rc.wasm ./rc.wasm
 COPY --from=wasm-tinygo /build/dist/wanix.wasm ./wanix.wasm
 CMD ["true"]
